@@ -227,7 +227,7 @@ variable "tags" {
   default     = {}
   description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)"
 }
-able "db_parameter" {
+variable "db_parameter" {
   type        = list(map(string))
   default     = []
   description = "A list of DB parameters to apply. Note that parameters may differ from a DB family to another"
