@@ -1,7 +1,7 @@
 variable "replica_instance_class" {
   type        = string
   default = "db.t3.small"
-  description = "Class of RDS instance"
+  description = "Class of RDS instances"
 }
 
 variable "replica_count" {
