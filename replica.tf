@@ -9,7 +9,7 @@
 #   enabled                = var.rds_replica_enabled ? "true" : "false"
 # }
 resource "aws_db_instance" "replica" {
-  count             = var.enabled == "true" ? var.replica_count : 0
+  count             = var.replica_count
   identifier        = "${module.label.id}-replica-${count.index}"
   name              = null
   username          = null
@@ -57,27 +57,23 @@ resource "aws_db_instance" "replica" {
   }
 }
 
-locals {
-  db_replica_parameter = length(var.db_replica_parameter) == 0 ? var.db_parameter : var.db_replica_parameter
-}
-
-resource "aws_db_parameter_group" "replica" {
-  count  = length(var.parameter_group_name) == 0 && var.enabled == "true" && var.replica_count > 0 ? 1 : 0
-  name   = "${module.label.id}"
-  family = var.db_parameter_group
-  tags   = module.label.tags
-  lifecycle {
-    ignore_changes = [parameter]
-  }
-  dynamic "parameter" {
-    for_each = local.db_replica_parameter
-    content {
-      apply_method = lookup(parameter.value, "apply_method", null)
-      name         = parameter.value.name
-      value        = parameter.value.value
-    }
-  }
-}
+# resource "aws_db_parameter_group" "default" {
+#   count  = length(var.parameter_group_name) == 0 && var.enabled == "true" ? 1 : 0
+#   name   = module.label.id
+#   family = var.db_parameter_group
+#   tags   = module.label.tags
+#   lifecycle {
+#     ignore_changes = [parameter]
+#   }
+#   dynamic "parameter" {
+#     for_each = var.db_parameter
+#     content {
+#       apply_method = lookup(parameter.value, "apply_method", null)
+#       name         = parameter.value.name
+#       value        = parameter.value.value
+#     }
+#   }
+# }
 
 # resource "aws_db_option_group" "default" {
 #   count                = length(var.option_group_name) == 0 && var.enabled == "true" ? 1 : 0

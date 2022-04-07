@@ -227,6 +227,7 @@ variable "tags" {
   default     = {}
   description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)"
 }
+
 variable "db_parameter" {
   type        = list(map(string))
   default     = []
@@ -244,6 +245,13 @@ variable "snapshot_identifier" {
   description = "Snapshot identifier e.g: rds:production-2015-06-26-06-05. If specified, the module create cluster from the snapshot"
   default     = ""
 }
+
+variable "replicate_source_db" {
+  type        = string
+  description = "replica identifier e.g: rds:production-app. If specified this instance becomes a repica database"
+  default     = ""
+}
+
 variable "final_snapshot_identifier" {
   type        = string
   description = "Final snapshot identifier e.g.: some-db-final-snapshot-2015-06-26-06-05"
