@@ -63,7 +63,7 @@ locals {
 
 resource "aws_db_parameter_group" "replica" {
   count  = length(var.parameter_group_name) == 0 && var.enabled == "true" && var.replica_count > 0 ? 1 : 0
-  name   = "${var.module.label.id}"
+  name   = "${module.label.id}"
   family = var.db_parameter_group
   tags   = module.label.tags
   lifecycle {
