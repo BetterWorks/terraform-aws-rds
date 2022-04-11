@@ -50,7 +50,7 @@ resource "aws_db_instance" "replica" {
   final_snapshot_identifier       = null
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   monitoring_interval             = var.monitoring_interval
-  monitoring_role_arn             = var.monitoring_role_arn
+  monitoring_role_arn             = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
   performance_insights_enabled    = var.performance_insights_enabled
   lifecycle {
     ignore_changes = [parameter_group_name, db_subnet_group_name]
