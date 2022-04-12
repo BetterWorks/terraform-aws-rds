@@ -52,18 +52,12 @@ resource "aws_db_instance" "replica" {
   monitoring_interval             = var.monitoring_interval
   monitoring_role_arn             = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
   performance_insights_enabled    = var.performance_insights_enabled
-  
-  # configure customized timeout value 
-
-  dynamic "timeouts" {
-    for_each = var.timeouts
-    content {
-      create = timeouts.value["create"]
-      delete = timeouts.value["delete"]
-      update = timeouts.value["update"]
-    }
-  }
-  
+  # pass required timeout values
+  timeouts = [{
+    create = "2h"
+    update = "90m"
+    delete = "2h"
+  }] 
   lifecycle {
     ignore_changes = [parameter_group_name, db_subnet_group_name]
   }
