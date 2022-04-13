@@ -54,6 +54,7 @@ resource "aws_db_instance" "replica" {
   performance_insights_enabled    = var.performance_insights_enabled
   timeouts {
     create = "60m"
+    update = "90m"
     delete = "2h"
   }
 
