@@ -38,7 +38,7 @@ resource "aws_db_instance" "default" {
     ),
   )
   db_subnet_group_name            = var.replicate_source_db == "" ? join("", aws_db_subnet_group.default.*.name) : null
-  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : join("", aws_db_parameter_group.default.*.name)
+  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : "${module.label.id}-${var.major_engine_version}"
   option_group_name               = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
   license_model                   = var.license_model
   multi_az                        = var.multi_az
@@ -69,7 +69,7 @@ resource "aws_db_instance" "default" {
 
 resource "aws_db_parameter_group" "default" {
   count  = length(var.parameter_group_name) == 0 && var.enabled == "true" ? 1 : 0
-  name   = "${module.label.id}-${var.major_engine_version}f"
+  name   = "${module.label.id}-${var.major_engine_version}"
   family = var.db_parameter_group
   tags   = module.label.tags
   lifecycle {
