@@ -21,14 +21,14 @@ module "final_snapshot_label" {
 resource "aws_db_instance" "default" {
   count             = var.enabled == "true" ? 1 : 0
   identifier        = module.label.id
-  name              = var.snapshot_identifier == "" ? var.database_name : null
-  username          = var.snapshot_identifier == "" ? var.database_user : null
-  password          = var.snapshot_identifier == "" ? var.database_password : null
+  name              = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.database_name : null
+  username          = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.database_user : null
+  password          = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.database_password : null
   port              = var.database_port
-  engine            = var.snapshot_identifier == "" ? var.engine : null
-  engine_version    = var.snapshot_identifier == "" ? var.engine_version : null
+  engine            = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.engine : null
+  engine_version    = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.engine_version : null
   instance_class    = var.instance_class
-  allocated_storage = var.snapshot_identifier == "" ? var.allocated_storage : null
+  allocated_storage = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.allocated_storage : null
   storage_encrypted = var.storage_encrypted
   kms_key_id        = var.kms_key_arn
   vpc_security_group_ids = compact(
@@ -37,7 +37,7 @@ resource "aws_db_instance" "default" {
       var.associate_security_group_ids,
     ),
   )
-  db_subnet_group_name            = join("", aws_db_subnet_group.default.*.name)
+  db_subnet_group_name            = var.replicate_source_db == "" ? join("", aws_db_subnet_group.default.*.name) : null
   parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : join("", aws_db_parameter_group.default.*.name)
   option_group_name               = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
   license_model                   = var.license_model
@@ -45,18 +45,19 @@ resource "aws_db_instance" "default" {
   storage_type                    = var.storage_type
   iops                            = var.iops
   publicly_accessible             = var.publicly_accessible
+  replicate_source_db             = var.replicate_source_db == "" ? null : var.replicate_source_db
   snapshot_identifier             = var.snapshot_identifier
   allow_major_version_upgrade     = var.allow_major_version_upgrade
   auto_minor_version_upgrade      = var.auto_minor_version_upgrade
   apply_immediately               = var.apply_immediately
   maintenance_window              = var.maintenance_window
   skip_final_snapshot             = var.skip_final_snapshot
-  copy_tags_to_snapshot           = var.copy_tags_to_snapshot
-  backup_retention_period         = var.backup_retention_period
-  backup_window                   = var.backup_window
+  copy_tags_to_snapshot           = var.replicate_source_db == "" ? var.copy_tags_to_snapshot : null
+  backup_retention_period         = var.replicate_source_db == "" ? var.backup_retention_period : null
+  backup_window                   = var.replicate_source_db == "" ? var.backup_window : null
   tags                            = module.label.tags
   deletion_protection             = var.deletion_protection
-  final_snapshot_identifier       = length(var.final_snapshot_identifier) > 0 ? var.final_snapshot_identifier : module.final_snapshot_label.id
+  final_snapshot_identifier       = var.replicate_source_db == "" ? length(var.final_snapshot_identifier) > 0 ? var.final_snapshot_identifier : module.final_snapshot_label.id : null
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
   monitoring_interval             = var.monitoring_interval
   monitoring_role_arn             = var.monitoring_interval == 0 ? null : var.monitoring_role_arn

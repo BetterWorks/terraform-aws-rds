@@ -290,3 +290,9 @@ variable "performance_insights_enabled" {
   description = "enabling performance insights"
   default     = "false"
 }
+
+variable "replicate_source_db" {
+  type        = string
+  description = "added for backwards compatability reasons, do not use on new modules replica identifier e.g: rds:production-app. If specified this instance becomes a replica database"
+  default     = ""
+}
