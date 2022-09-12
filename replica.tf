@@ -73,6 +73,7 @@ resource "aws_db_parameter_group" "replica" {
   family = var.db_parameter_group
   tags   = module.label.tags
   lifecycle {
+    create_before_destroy = true
     ignore_changes = [parameter]
   }
   dynamic "parameter" {
