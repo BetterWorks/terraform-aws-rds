@@ -37,7 +37,7 @@ resource "aws_db_instance" "default" {
       var.associate_security_group_ids,
     ),
   )
-  db_subnet_group_name            =  join("", aws_db_subnet_group.default.*.name)
+  db_subnet_group_name            = join("", aws_db_subnet_group.default.*.name)
   parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : join("", aws_db_parameter_group.default.*.name)
   option_group_name               = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
   license_model                   = var.license_model
@@ -68,7 +68,7 @@ resource "aws_db_instance" "default" {
 
 resource "aws_db_parameter_group" "default" {
   count  = length(var.parameter_group_name) == 0 && var.enabled == "true" ? 1 : 0
-  name   = module.label.id
+  name   = "${module.label.id}-${var.major_engine_version}"
   family = var.db_parameter_group
   tags   = module.label.tags
   lifecycle {
@@ -86,7 +86,7 @@ resource "aws_db_parameter_group" "default" {
 
 resource "aws_db_option_group" "default" {
   count                = length(var.option_group_name) == 0 && var.enabled == "true" ? 1 : 0
-  name                 = module.label.id
+  name                 = "${module.label.id}-${var.major_engine_version}"
   engine_name          = var.engine
   major_engine_version = var.major_engine_version
   tags                 = module.label.tags
