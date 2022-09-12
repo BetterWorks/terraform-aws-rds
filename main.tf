@@ -38,7 +38,7 @@ resource "aws_db_instance" "default" {
     ),
   )
   db_subnet_group_name            = var.replicate_source_db == "" ? join("", aws_db_subnet_group.default.*.name) : null
-  parameter_group_name            = "${module.label.id}-${var.major_engine_version}"
+  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : join("", aws_db_parameter_group.default.*.name)
   option_group_name               = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
   license_model                   = var.license_model
   multi_az                        = var.multi_az
@@ -63,7 +63,7 @@ resource "aws_db_instance" "default" {
   monitoring_role_arn             = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
   performance_insights_enabled    = var.performance_insights_enabled
   lifecycle {
-    ignore_changes = [parameter_group_name, db_subnet_group_name]
+    ignore_changes = [db_subnet_group_name]
   }
 }
 
