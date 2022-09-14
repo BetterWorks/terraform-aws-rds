@@ -69,7 +69,7 @@ resource "aws_db_instance" "default" {
 
 resource "aws_db_parameter_group" "default" {
   count  = length(var.parameter_group_name) == 0 && var.enabled == "true" ? 1 : 0
-  name   = "${module.label.id}-${var.major_engine_version}"
+  name   = "${module.label.id}${var.major_engine_version=="10" ? "" :"-${var.major_engine_version}"}"
   family = var.db_parameter_group
   tags   = module.label.tags
   lifecycle {
@@ -88,7 +88,7 @@ resource "aws_db_parameter_group" "default" {
 
 resource "aws_db_option_group" "default" {
   count                = length(var.option_group_name) == 0 && var.enabled == "true" ? 1 : 0
-  name                 = "${module.label.id}-${var.major_engine_version}"
+  name                 = "${module.label.id}${var.major_engine_version=="10" ? "" :"-${var.major_engine_version}"}"
   engine_name          = var.engine
   major_engine_version = var.major_engine_version
   tags                 = module.label.tags
