@@ -59,7 +59,7 @@ resource "aws_db_instance" "default" {
   deletion_protection             = var.deletion_protection
   final_snapshot_identifier       = var.replicate_source_db == "" ? length(var.final_snapshot_identifier) > 0 ? var.final_snapshot_identifier : module.final_snapshot_label.id : null
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
-  monitoring_interval             = 45
+  monitoring_interval             = var.monitoring_interval
   monitoring_role_arn             = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
   performance_insights_enabled    = var.performance_insights_enabled
   lifecycle {
