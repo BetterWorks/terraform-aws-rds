@@ -62,9 +62,6 @@ resource "aws_db_instance" "default" {
   monitoring_interval             = var.monitoring_interval
   monitoring_role_arn             = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
   performance_insights_enabled    = var.performance_insights_enabled
-  lifecycle {
-    ignore_changes = [db_subnet_group_name]
-  }
 }
 
 resource "aws_db_parameter_group" "default" {
@@ -74,7 +71,6 @@ resource "aws_db_parameter_group" "default" {
   tags   = module.label.tags
   lifecycle {
     create_before_destroy = true
-    ignore_changes = [parameter]
   }
   dynamic "parameter" {
     for_each = var.db_parameter
@@ -113,7 +109,6 @@ resource "aws_db_option_group" "default" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = [option]
   }
 }
 
