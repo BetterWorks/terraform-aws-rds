@@ -37,36 +37,37 @@ resource "aws_db_instance" "default" {
       var.associate_security_group_ids,
     ),
   )
-  db_subnet_group_name            = var.replicate_source_db == "" ? join("", aws_db_subnet_group.default.*.name) : null
-  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : join("", aws_db_parameter_group.default.*.name)
-  option_group_name               = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
-  license_model                   = var.license_model
-  multi_az                        = var.multi_az
-  storage_type                    = var.storage_type
-  iops                            = var.iops
-  publicly_accessible             = var.publicly_accessible
-  replicate_source_db             = var.replicate_source_db == "" ? null : var.replicate_source_db
-  snapshot_identifier             = var.snapshot_identifier
-  allow_major_version_upgrade     = var.allow_major_version_upgrade
-  auto_minor_version_upgrade      = var.auto_minor_version_upgrade
-  apply_immediately               = var.apply_immediately
-  maintenance_window              = var.maintenance_window
-  skip_final_snapshot             = var.skip_final_snapshot
-  copy_tags_to_snapshot           = var.replicate_source_db == "" ? var.copy_tags_to_snapshot : null
-  backup_retention_period         = var.replicate_source_db == "" ? var.backup_retention_period : null
-  backup_window                   = var.replicate_source_db == "" ? var.backup_window : null
-  tags                            = module.label.tags
-  deletion_protection             = var.deletion_protection
-  final_snapshot_identifier       = var.replicate_source_db == "" ? length(var.final_snapshot_identifier) > 0 ? var.final_snapshot_identifier : module.final_snapshot_label.id : null
-  enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
-  monitoring_interval             = var.monitoring_interval
-  monitoring_role_arn             = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
-  performance_insights_enabled    = var.performance_insights_enabled
+  db_subnet_group_name                = var.replicate_source_db == "" ? join("", aws_db_subnet_group.default.*.name) : null
+  parameter_group_name                = length(var.parameter_group_name) > 0 ? var.parameter_group_name : join("", aws_db_parameter_group.default.*.name)
+  option_group_name                   = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
+  license_model                       = var.license_model
+  multi_az                            = var.multi_az
+  storage_type                        = var.storage_type
+  iops                                = var.iops
+  publicly_accessible                 = var.publicly_accessible
+  replicate_source_db                 = var.replicate_source_db == "" ? null : var.replicate_source_db
+  snapshot_identifier                 = var.snapshot_identifier
+  allow_major_version_upgrade         = var.allow_major_version_upgrade
+  auto_minor_version_upgrade          = var.auto_minor_version_upgrade
+  apply_immediately                   = var.apply_immediately
+  maintenance_window                  = var.maintenance_window
+  skip_final_snapshot                 = var.skip_final_snapshot
+  copy_tags_to_snapshot               = var.replicate_source_db == "" ? var.copy_tags_to_snapshot : null
+  backup_retention_period             = var.replicate_source_db == "" ? var.backup_retention_period : null
+  backup_window                       = var.replicate_source_db == "" ? var.backup_window : null
+  tags                                = module.label.tags
+  deletion_protection                 = var.deletion_protection
+  final_snapshot_identifier           = var.replicate_source_db == "" ? length(var.final_snapshot_identifier) > 0 ? var.final_snapshot_identifier : module.final_snapshot_label.id : null
+  enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
+  monitoring_interval                 = var.monitoring_interval
+  monitoring_role_arn                 = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
+  performance_insights_enabled        = var.performance_insights_enabled
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
 }
 
 resource "aws_db_parameter_group" "default" {
   count  = length(var.parameter_group_name) == 0 && var.enabled == "true" ? 1 : 0
-  name   = "${module.label.id}${var.major_engine_version=="10" ? "" :"-${var.major_engine_version}"}"
+  name   = "${module.label.id}${var.major_engine_version == "10" ? "" : "-${var.major_engine_version}"}"
   family = var.db_parameter_group
   tags   = module.label.tags
   lifecycle {
@@ -84,7 +85,7 @@ resource "aws_db_parameter_group" "default" {
 
 resource "aws_db_option_group" "default" {
   count                = length(var.option_group_name) == 0 && var.enabled == "true" ? 1 : 0
-  name                 = "${module.label.id}${var.major_engine_version=="10" ? "" :"-${var.major_engine_version}"}"
+  name                 = "${module.label.id}${var.major_engine_version == "10" ? "" : "-${var.major_engine_version}"}"
   engine_name          = var.engine
   major_engine_version = var.major_engine_version
   tags                 = module.label.tags

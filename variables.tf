@@ -296,3 +296,10 @@ variable "replicate_source_db" {
   description = "added for backwards compatability reasons, do not use on new modules replica identifier e.g: rds:production-app. If specified this instance becomes a replica database"
   default     = ""
 }
+
+
+variable "iam_database_authentication_enabled" {
+  type        = bool
+  description = "iam database authentication enabled"
+  default     = false
+}
