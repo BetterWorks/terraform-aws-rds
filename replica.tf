@@ -1,5 +1,5 @@
 # module "replica_label" {
-#   source                 = "git::https://github.com/betterworks/terraform-null-label.git?ref=tags/0.12.0"
+#   source                 = "git::https://github.com/betterworks/terraform-null-label.git?ref=tf-upgrade"
 #   namespace              = var.namespace
 #   name                   = var.name
 #   replica_count          = rds_replica_count
