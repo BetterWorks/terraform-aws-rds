@@ -303,3 +303,9 @@ variable "iam_database_authentication_enabled" {
   description = "iam database authentication enabled"
   default     = false
 }
+
+variable "db_parameter_option_group_include_engine_version"{ 
+  type        = bool
+  description = "bool to include the engine version number in the name of the options and parameter groups or not"
+  default     = true
+}
