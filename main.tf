@@ -145,7 +145,7 @@ resource "aws_security_group" "default" {
 }
 
 module "dns_host_name" {
-  source    = "git::https://github.com/betterworks/terraform-aws-route53-cluster-hostname.git?ref=tags/0.3.0"
+  source    = "git::https://github.com/betterworks/terraform-aws-route53-cluster-hostname.git?ref=tags/0.8.0"
   namespace = var.namespace
   name      = var.host_name
   stage     = var.stage
