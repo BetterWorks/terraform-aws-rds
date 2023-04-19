@@ -309,3 +309,10 @@ variable "db_parameter_option_group_include_engine_version"{
   description = "bool to include the engine version number in the name of the options and parameter groups or not"
   default     = true
 }
+
+variable "db_subnet_group_name_override" {
+  type        = string
+  description = "override subnet group"
+  default     = ""
+  
+}
