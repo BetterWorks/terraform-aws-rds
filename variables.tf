@@ -270,7 +270,7 @@ variable "kms_key_arn" {
 
 variable "monitoring_interval" {
   description = "The interval in seconds enhanced monitoring metrics are sent to cloudwatch"
-  default     = 25
+  default     = 30
 }
 
 variable "monitoring_role_arn" {
