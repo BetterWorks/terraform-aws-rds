@@ -28,7 +28,7 @@ resource "aws_db_instance" "replica" {
     ),
   )
   db_subnet_group_name            = null
-  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : join("", aws_db_parameter_group.default.*.name)
+  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : aws_db_parameter_group.replica.count > 0 ? join("", aws_db_parameter_group.replica.*.name) : join("", aws_db_parameter_group.default.*.name)
   option_group_name               = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
   license_model                   = var.license_model
   multi_az                        = var.multi_az
@@ -60,11 +60,11 @@ resource "aws_db_instance" "replica" {
 }
 
 locals {
-  db_replica_parameter = length(var.db_replica_parameter) == 0 ? var.db_parameter : var.db_replica_parameter
+  db_replica_parameter = var.db_replica_parameter
 }
 
 resource "aws_db_parameter_group" "replica" {
-  count  = length(var.parameter_group_name) == 0 && var.enabled == "true" && var.replica_count > 0 ? 1 : 0
+  count  = length(var.parameter_group_name) == 0 && var.enabled == "true" && var.replica_count > 0 && local.db_replica_parameter != 0 ? 1 : 0
   name   = "${module.label.id}-replica"
   family = var.db_parameter_group
   tags   = module.label.tags
