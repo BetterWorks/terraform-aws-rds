@@ -28,7 +28,7 @@ resource "aws_db_instance" "replica" {
     ),
   )
   db_subnet_group_name            = null
-  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : aws_db_parameter_group.replica.count > 0 ? join("", aws_db_parameter_group.replica.*.name) : join("", aws_db_parameter_group.default.*.name)
+  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : (local.db_replica_parameter != 0 ? join("", aws_db_parameter_group.replica.*.name) : join("", aws_db_parameter_group.default.*.name))
   option_group_name               = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
   license_model                   = var.license_model
   multi_az                        = var.multi_az
