@@ -270,7 +270,7 @@ variable "kms_key_arn" {
 
 variable "monitoring_interval" {
   description = "The interval in seconds enhanced monitoring metrics are sent to cloudwatch"
-  default     = 25
+  default     = 30
 }
 
 variable "monitoring_role_arn" {
@@ -302,4 +302,17 @@ variable "iam_database_authentication_enabled" {
   type        = bool
   description = "iam database authentication enabled"
   default     = false
+}
+
+variable "db_parameter_option_group_include_engine_version"{ 
+  type        = bool
+  description = "bool to include the engine version number in the name of the options and parameter groups or not"
+  default     = true
+}
+
+variable "db_subnet_group_name_override" {
+  type        = string
+  description = "override subnet group"
+  default     = ""
+  
 }
