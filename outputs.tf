@@ -38,4 +38,8 @@ output "hostname" {
   description = "DNS host name of the instance"
 }
 
+output "db_instance_identifier" {
+  value       = module.label.id
+  description = "database identifier of the instance"
+}
 
