@@ -21,7 +21,7 @@ module "final_snapshot_label" {
 resource "aws_db_instance" "default" {
   count             = var.enabled == "true" ? 1 : 0
   identifier        = module.label.id
-  name              = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.database_name : null
+  db_name           = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.database_name : null
   username          = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.database_user : null
   password          = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.database_password : null
   port              = var.database_port
