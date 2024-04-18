@@ -11,7 +11,7 @@
 resource "aws_db_instance" "replica" {
   count             = var.enabled == "true" ? var.replica_count : 0
   identifier        = "${module.label.id}-replica-${count.index}"
-  name              = null
+  db_name           = null
   username          = null
   password          = null
   port              = var.database_port
