@@ -3,6 +3,10 @@ output "instance_id" {
   description = "ID of the instance"
 }
 
+output "instance_identifier" {
+  value       = join("", aws_db_instance.default.*.identifier)
+  description = "ID of the instance"
+}
 output "instance_address" {
   value       = join("", aws_db_instance.default.*.address)
   description = "Address of the instance"
