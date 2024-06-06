@@ -35,7 +35,7 @@ resource "aws_db_instance" "replica" {
   storage_type                    = var.storage_type
   iops                            = var.iops
   publicly_accessible             = var.publicly_accessible
-  replicate_source_db             = aws_db_instance.default[0].id
+  replicate_source_db             = aws_db_instance.default[0].identifier
   snapshot_identifier             = var.snapshot_identifier
   allow_major_version_upgrade     = var.allow_major_version_upgrade
   auto_minor_version_upgrade      = var.auto_minor_version_upgrade
