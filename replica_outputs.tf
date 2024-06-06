@@ -3,6 +3,11 @@ output "replica_instance_id" {
   description = "ID of the replica instances"
 }
 
+output "replica_instance_identifier" {
+  value       = var.enabled && var.replica_count > 0 ? aws_db_instance.replica.*.identifier : []
+  description = "identifier of the replica instances"
+}
+
 output "replica_instance_address" {
   value       = var.enabled && var.replica_count > 0 ? aws_db_instance.replica.*.address : []
   description = "Addresses of the replica instances"
