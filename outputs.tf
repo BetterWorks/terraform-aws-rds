@@ -42,4 +42,7 @@ output "hostname" {
   description = "DNS host name of the instance"
 }
 
-
+output "master_storage_type" {
+  value       = join("", aws_db_instance.default.*.storage_type)
+  description = "Storage type of the master instance"
+}
