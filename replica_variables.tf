@@ -1,13 +1,13 @@
 variable "replica_instance_class" {
   type        = string
-  default = "db.t3.small"
+  default     = "db.t4g.small"
   description = "Class of RDS instance"
 }
 
 variable "replica_count" {
   type        = number
   description = "no of read replica's to stand up"
-  default = 0
+  default     = 0
 }
 
 variable "db_replica_parameter" {
