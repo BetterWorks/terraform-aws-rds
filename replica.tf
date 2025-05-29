@@ -1,5 +1,5 @@
 # module "replica_label" {
-#   source                 = "git::https://github.com/betterworks/terraform-null-label.git?ref=tags/0.13.0"
+#   source                 = "git::https://github.com/betterworks/terraform-null-label.git?ref=tags/0.14.0"
 #   namespace              = var.namespace
 #   name                   = var.name
 #   replica_count          = rds_replica_count
@@ -27,31 +27,32 @@ resource "aws_db_instance" "replica" {
       var.associate_security_group_ids,
     ),
   )
-  db_subnet_group_name            = null
-  parameter_group_name            = length(var.parameter_group_name) > 0 ? var.parameter_group_name : (length(local.db_replica_parameter) != 0 ? join("", aws_db_parameter_group.replica.*.name) : join("", aws_db_parameter_group.default.*.name))
-  option_group_name               = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
-  license_model                   = var.license_model
-  multi_az                        = var.multi_az
-  storage_type                    = var.storage_type
-  iops                            = var.iops
-  publicly_accessible             = var.publicly_accessible
-  replicate_source_db             = aws_db_instance.default[0].identifier
-  snapshot_identifier             = var.snapshot_identifier
-  allow_major_version_upgrade     = var.allow_major_version_upgrade
-  auto_minor_version_upgrade      = var.auto_minor_version_upgrade
-  apply_immediately               = var.apply_immediately
-  maintenance_window              = var.maintenance_window
-  skip_final_snapshot             = var.skip_final_snapshot
-  copy_tags_to_snapshot           = null
-  backup_retention_period         = null
-  backup_window                   = null
-  tags                            = module.label.tags
-  deletion_protection             = var.deletion_protection
-  final_snapshot_identifier       = null
-  enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
-  monitoring_interval             = var.monitoring_interval
-  monitoring_role_arn             = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
-  performance_insights_enabled    = var.performance_insights_enabled
+  db_subnet_group_name                = null
+  parameter_group_name                = length(var.parameter_group_name) > 0 ? var.parameter_group_name : (length(local.db_replica_parameter) != 0 ? join("", aws_db_parameter_group.replica.*.name) : join("", aws_db_parameter_group.default.*.name))
+  option_group_name                   = length(var.option_group_name) > 0 ? var.option_group_name : join("", aws_db_option_group.default.*.name)
+  license_model                       = var.license_model
+  multi_az                            = var.multi_az
+  storage_type                        = var.storage_type
+  iops                                = var.iops
+  publicly_accessible                 = var.publicly_accessible
+  replicate_source_db                 = aws_db_instance.default[0].identifier
+  snapshot_identifier                 = var.snapshot_identifier
+  allow_major_version_upgrade         = var.allow_major_version_upgrade
+  auto_minor_version_upgrade          = var.auto_minor_version_upgrade
+  apply_immediately                   = var.apply_immediately
+  maintenance_window                  = var.maintenance_window
+  skip_final_snapshot                 = var.skip_final_snapshot
+  copy_tags_to_snapshot               = null
+  backup_retention_period             = null
+  backup_window                       = null
+  tags                                = module.label.tags
+  deletion_protection                 = var.deletion_protection
+  final_snapshot_identifier           = null
+  enabled_cloudwatch_logs_exports     = var.enabled_cloudwatch_logs_exports
+  monitoring_interval                 = var.monitoring_interval
+  monitoring_role_arn                 = var.monitoring_interval == 0 ? null : var.monitoring_role_arn
+  performance_insights_enabled        = var.performance_insights_enabled
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
   timeouts {
     create = "60m"
     update = "90m"
