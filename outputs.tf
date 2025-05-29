@@ -3,6 +3,11 @@ output "instance_id" {
   description = "ID of the instance"
 }
 
+output "instance_resource_id" {
+  value       = join("", aws_db_instance.default.*.resource_id)
+  description = "resource id of the instance"
+}
+
 output "instance_identifier" {
   value       = join("", aws_db_instance.default.*.identifier)
   description = "ID of the instance"
