@@ -102,6 +102,10 @@ variable "allocated_storage" {
   description = "The allocated storage in GBs"
   # Number, e.g. 10
 }
+variable "max_allocated_storage" {
+  description = "The maximum allocated storage in GBs"
+  # Number, e.g. 10
+}
 
 variable "engine" {
   type        = string

@@ -29,6 +29,7 @@ resource "aws_db_instance" "default" {
   engine_version    = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.engine_version : null
   instance_class    = var.instance_class
   allocated_storage = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.allocated_storage : null
+  max_allocated_storage = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.max_allocated_storage : null
   storage_encrypted = var.storage_encrypted
   kms_key_id        = var.kms_key_arn
   vpc_security_group_ids = compact(
