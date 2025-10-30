@@ -1,5 +1,5 @@
 module "label" {
-  source     = "git::https://github.com/betterworks/terraform-null-label.git?ref=tags/0.13.0"
+  source     = "git::https://github.com/betterworks/terraform-null-label.git?ref=tags/0.14.0"
   namespace  = var.namespace
   name       = var.name
   stage      = var.stage
@@ -9,7 +9,7 @@ module "label" {
 }
 
 module "final_snapshot_label" {
-  source     = "git::https://github.com/betterworks/terraform-null-label.git?ref=tags/0.13.0"
+  source     = "git::https://github.com/betterworks/terraform-null-label.git?ref=tags/0.14.0"
   namespace  = var.namespace
   name       = var.name
   stage      = var.stage
@@ -29,6 +29,7 @@ resource "aws_db_instance" "default" {
   engine_version    = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.engine_version : null
   instance_class    = var.instance_class
   allocated_storage = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.allocated_storage : null
+  max_allocated_storage = var.snapshot_identifier == "" && var.replicate_source_db == "" ? var.max_allocated_storage : null
   storage_encrypted = var.storage_encrypted
   kms_key_id        = var.kms_key_arn
   vpc_security_group_ids = compact(
